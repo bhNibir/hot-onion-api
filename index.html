@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <input type="text" id="name">
+        <input type="submit" id="handelName" value="Submit">
+    </div>
+
+    <script>
+        const btnUser = document.getElementById("handelName")
+        btnUser.addEventListener("click", ()=> {
+            const name = document.getElementById("name").value
+            fetch('http://localhost:4200/user', {
+                method: 'POST',
+                body: JSON.stringify({
+                 name: name
+                }),
+                headers: {
+                  "Content-type": "application/json; charset=UTF-8"
+                }
+              })
+              .then(response => response.json())
+              .then(json => console.log(json))
+        })
+
+    </script>
+</body>
+</html>

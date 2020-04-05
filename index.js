@@ -16,7 +16,7 @@ let client = new MongoClient(uri, { useNewUrlParser: true });
 app.use(bodyParser.json())
 app.use(cors())
 
-app.get('/', (req, res) => res.send('Hello Server is running!'))
+app.get('/', (req, res) => res.send('Server is running! Get Foods in this link /foodItems'))
 
 app.post('/addItems', (req, res) => {
     const items = req.body

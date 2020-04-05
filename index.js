@@ -3,7 +3,7 @@ require('dotenv').config()
 const cors = require('cors')
 const app = express()
 const bodyParser = require('body-parser')
-const port = 4200
+const port = process.env.PORT || 4200
 
 //Database
 const MongoClient = require('mongodb').MongoClient;
@@ -72,6 +72,48 @@ app.get('/foodItems/:key', (req, res) => {
         }
         else{
             res.send(documents)
+        }
+    })
+    client.close();
+    });
+})
+
+
+app.post('/itemsReviewByKey', (req, res) => {
+    const itemsKeys = req.body
+    client = new MongoClient(uri, { useNewUrlParser: true });
+    client.connect(err => {
+        const collection = client.db("hot-onion").collection("foodItems");
+          collection.find({'key' : { $in :itemsKeys }}).toArray((err, documents) => {
+             if(err){
+                 console.log(err);
+                 res.status(500).send({message:err})
+                 
+             }
+             else{
+                 res.send(documents)
+             }
+          })
+          
+        client.close();
+      });
+})
+
+app.post('/orders', (req, res) => {
+    const orderDetails = req.body
+    orderDetails.orderTime = new Date()
+
+    client = new MongoClient(uri, { useNewUrlParser: true });
+    client.connect(err => {
+    const collection = client.db("hot-onion").collection("orders");
+    collection.insert(orderDetails, (err, result) => {
+        if(err){
+            console.log(err);
+            res.status(500).send({message:err})
+            
+        }
+        else{
+            res.send(result.ops[0])
         }
     })
     client.close();

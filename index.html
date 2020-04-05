@@ -15,7 +15,7 @@
         const btnUser = document.getElementById("handelName")
         btnUser.addEventListener("click", ()=> {
             const name = document.getElementById("name").value
-            fetch('http://localhost:4200/user', {
+            fetch('http://localhost:4200/addItems', {
                 method: 'POST',
                 body: JSON.stringify({
                  name: name
